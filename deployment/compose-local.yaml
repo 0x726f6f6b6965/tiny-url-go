@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  tiny-url:
+    image: ${SERVICE_NAME}:${IMG_VER}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./deployment/application-local.yaml:/app/application.yaml
