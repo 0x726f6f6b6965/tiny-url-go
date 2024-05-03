@@ -14,12 +14,22 @@ import (
 
 func main() {
 	godotenv.Load()
-	path := os.Getenv("CONFIG")
-	var cfg config.AppConfig
-	data, err := os.ReadFile(path)
-	if err != nil {
-		log.Fatal("read yaml error", err)
-		return
+	var (
+		cfg  config.AppConfig
+		data []byte
+		err  error
+	)
+
+	configData := os.Getenv("CONFIG")
+	if configData == "" {
+		path := os.Getenv("CONFIG_PATH")
+		data, err = os.ReadFile(path)
+		if err != nil {
+			log.Fatal("read yaml error", err)
+			return
+		}
+	} else {
+		data = []byte(configData)
 	}
 	err = yaml.Unmarshal(data, &cfg)
 	if err != nil {

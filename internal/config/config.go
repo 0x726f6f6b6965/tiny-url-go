@@ -4,7 +4,6 @@ import "time"
 
 type AppConfig struct {
 	Env       string          `yaml:"env" mapstructure:"env" cobra-usage:"the application environment" cobra-default:"dev"`
-	Host      string          `yaml:"host" mapstructure:"host" validate:"required" cobra-usage:"the application host" cobra-default:"localhost"`
 	Port      uint64          `yaml:"port" mapstructure:"port" validate:"required,gte=0" cobra-usage:"the application port" cobra-default:"8080"`
 	Log       LogConfig       `yaml:"log" mapstructure:"log"`
 	TableName string          `yaml:"table-name" mapstructure:"table-name" cobra-usage:"the dynamodb table name" cobra-default:""`
