@@ -21,3 +21,20 @@ service-build:
 .PHONY: service-up
 service-up:
 	@docker-compose -f ./deployment/compose-local.yaml --project-directory . up -d
+
+.PHONY: service-push
+service-push:
+	@docker tag ${SERVICE_NAME}:$(shell git rev-parse HEAD) ${AWS_ERC}/${SERVICE_NAME}:$(shell git rev-parse HEAD)
+	@docker push ${AWS_ERC}/${SERVICE_NAME}:$(shell git rev-parse HEAD)
+
+.PHONY: plan
+plan:
+	@terraform -chdir=./infra plan -var repo_url=${AWS_ERC}/${SERVICE_NAME} -var img_tag=${IMG_VER}
+
+.PHONY: deploy
+deploy:
+	@terraform -chdir=./infra apply -var repo_url=${AWS_ERC}/${SERVICE_NAME} -var img_tag=${IMG_VER} -auto-approve
+
+.PHONY: destory
+destory:
+	@terraform -chdir=./infra destroy -var repo_url=${AWS_ERC}/${SERVICE_NAME} -var img_tag=${IMG_VER} -auto-approve

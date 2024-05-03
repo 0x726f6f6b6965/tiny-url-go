@@ -1,4 +1,4 @@
-FROM golang:1.22.0 AS build-stage
+FROM --platform=linux/amd64 golang:1.22.0 AS build-stage
 
 WORKDIR /app/project
 
@@ -12,10 +12,12 @@ WORKDIR /app
 
 RUN  rm -rf ./project
 
-FROM gcr.io/distroless/base-debian11 AS build-release-stage
+FROM --platform=linux/amd64 gcr.io/distroless/base-debian11 AS build-release-stage
 
 WORKDIR /
 
 COPY --from=build-stage /server /server
 
-CMD ["/server"]
+EXPOSE 80/tcp
+
+ENTRYPOINT ["/server"]
