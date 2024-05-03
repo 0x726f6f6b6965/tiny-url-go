@@ -10,5 +10,9 @@ func RegisterRoutes(server *gin.Engine, short *api.ShortenAPI) {
 	server.GET("/:shorten", short.RedirectURL)
 	server.DELETE("/shorten", short.DeleteURL)
 	server.PATCH("/shorten", short.UpdateURL)
-
+	server.GET("/health", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"status": "ok",
+		})
+	})
 }
