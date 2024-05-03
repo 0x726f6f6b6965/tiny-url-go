@@ -1,0 +1,15 @@
+port: 80
+env: "dev"
+table-name: "SHORTENURL"
+expire: 720h
+log:
+  level: -1
+  time-format: "2006-01-02T15:04:05Z07:00"
+  service-name: "tiny-url"
+sequencer:
+  node-id: 3
+  start: "2024-01-01T00:00:00Z"
+storage:
+  region: "us-east-1"
+  host: "dynamodb-local"
+  port: 8000
